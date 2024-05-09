@@ -42,9 +42,16 @@
 
                 <form class="col-lg-6 col-sm-8 col-10">
                     <div class="input-group mb-3 ">
-                        
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                           Find by
+                        </button>
                         <input type="text" id="text" class="form-control someInput " placeholder="Search..." aria-label="Email" aria-describedby="basic-addon1">
                         <button type="submit" class="btn btn-primary btn-md">Search</button> 
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" >Brand</a></li>
+                            <li><a class="dropdown-item" >Model</a></li>
+                            <li><a class="dropdown-item" >Milage</a></li>
+                        </ul>
                     </div>          
                 </form>
             </div>
@@ -98,7 +105,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script type="text/javascript">
 
-        var student;
+        {# var student;
         var i;
 
         function readyFn(jQuery) {
@@ -196,7 +203,7 @@
 
         $(document).ready(readyFn);
 
-        $(".loadpage").on("click", readyFn);
+        $(".loadpage").on("click", readyFn); #}
         </script>
         {% endblock %}
     </body>
