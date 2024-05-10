@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CarShowController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
+    ul {
+    list-style-type: none;
+    }
+
+    img {
+        display: block;
+        max-width:750px;
+        max-height:450px;
+        width: auto;
+        height: auto;
+        }
+
+    .box:hover{
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 15px 0 rgba(0, 0, 0, 0.19);
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    
+</style>
+
+<div class="example-wrapper">
+    {% for post in posts %}
+        <h4>{{post.modelname}}</h4>
+        <div class="col-8">
+            <img  src="{{asset(mainImage)}}" class="img-fluid " alt="Responsive image" style="height: 100%; width: auto;">
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

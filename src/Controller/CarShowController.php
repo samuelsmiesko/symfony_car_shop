@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Finder\Finder;
+
 class CarShowController extends AbstractController
 {
 
@@ -36,80 +36,164 @@ class CarShowController extends AbstractController
     // }
 
 
-    #[Route("/")]
+    // #[Route('/')]
     
-    public function ajaxAction(Request $request) {  
+    //     public function ajaxAction(Request $request) {  
+
+            
+    //         if(isset($_REQUEST['get_variable'])){
+    //             $limit = $_REQUEST['get_variable'];
+    //         }else{
+    //             $limit = 1;
+    //         }
+
+    //         $TopLimit = $limit * 5;
+    //         $BottomLimit = ($limit * 5)-4;
+
+    //         $lists = $this->em->getRepository(Cars::class)->findAll();
+
+
+    //         $students = $this->em->getRepository(Cars::class)->findBy(
+    //             array(),
+    //             array('id' => 'ASC'),
+    //             $TopLimit,
+    //             $BottomLimit
+    //         ); 
+
+            
+
+    //         if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {  
+    //         $jsonData = array();  
+    //         $idx = 0;  
+    //         foreach($students as $student) { 
+    //             $dir = $student->getimage();
+    //             $files = scandir($dir);
+    //             $imageToDisplay=$dir.$files[2]; 
+    //             $temp = array(
+    //                 'id' => $student->getId(),  
+    //                 'brandname' => $student->getBrandname(),  
+    //                 'model' => $student->getModelname(), 
+    //                 'modelyear' => $student->getModelyear(), 
+    //                 'milage' => $student->getMilage(), 
+    //                 'price' => $student->getPrice(), 
+    //                 'status' => $student->getStatus(),
+                    
+    //                 'image' => $imageToDisplay, 
+    //             );   
+    //             $jsonData[$idx++] = $temp;  
+           
+    //         } 
+            
+    //         return new JsonResponse($jsonData); 
+    //         } else { 
+    //             return $this->render('car_show/index.html.twig', [
+    //                 'lists' => $lists,
+
+    //             ]);
+    //         } 
+    //     }
+    
+
+    #[Route('/blog/{id}', name: 'blogPick')]
+    public function gallery($id): Response
+    {
+        
+
+        $posts = $this->em->getRepository(Cars::class)->findById($id);
+        
+        foreach($posts as $post) { 
+            
+            $dir = $post->getimage();
+
+            $files = scandir($dir);
+
+            //dd($files);
+
+            $imageToDisplay=$dir.$files[2];
+
+            
+        }    
 
         
-        if(isset($_REQUEST['get_variable'])){
-            $limit = $_REQUEST['get_variable'];
-        }else{
-            $limit = 1;
-        }
-
-        $TopLimit = $limit * 5;
-        $BottomLimit = ($limit * 5)-4;
-
-        $lists = $this->em->getRepository(Cars::class)->findAll();
+        return $this->render('car_show/display.html.twig', [
+            
+            'picked' => $id,
+            'posts' => $posts,
+            'mainImage' => $imageToDisplay
+        ]);
+    }
 
 
-        $dir    = 'carfotos/car1/';
-        $files = scandir($dir);
-        array_splice($files, 0, 2);
+    #[Route('/', name: 'blog')]
+    public function index(): Response
+    {
         
-        $array_lenght = count($files);
-        //echo($array_lenght);
-        //echo($files[1]);
-        
-
-        $students = $this->em->getRepository(Cars::class)->findBy(
+        $lists = $this->em->getRepository(Cars::class)->findBy(
             array(),
             array('id' => 'ASC'),
-            $TopLimit,
-            $BottomLimit
-        ); 
-
-        //print_r($students[0]);
-
-        // foreach($students as $student) {  
-        //     $dir = $student->getimage();
+            10,
+            0
             
-        //     $files = scandir($dir);
-        //     print_r($dir.$files[2]);
-        //     // array_splice($files, 0, 2);
             
-        // }
-
-        if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {  
-        $jsonData = array();  
-        $idx = 0;  
-        foreach($students as $student) { 
-            $dir = $student->getimage();
-            $files = scandir($dir);
-            $imageToDisplay=$dir.$files[2]; 
-            $temp = array(
-                'id' => $student->getId(),  
-                'brandname' => $student->getBrandname(),  
-                'model' => $student->getModelname(), 
-                'modelyear' => $student->getModelyear(), 
-                'milage' => $student->getMilage(), 
-                'price' => $student->getPrice(), 
-                'status' => $student->getStatus(),
-                
-                'image' => $imageToDisplay, 
-            );   
-            $jsonData[$idx++] = $temp;  
-
-            
-        } 
+        );
         
-        return new JsonResponse($jsonData); 
-        } else { 
+        $a=array();
+        foreach($lists as $list) { 
+            $dir = $list->getimage();
+
+            $files = scandir($dir);
+
+            
+
+            $imageToDisplay=$dir.$files[2];
+
+            array_push($a,$imageToDisplay);
+        }  
+        //dd($a); 
+
+        dd($lists);
+
+        $result = array_merge($a, $lists);
+
+        //dd($result);
+        return $this->render('car_show/index.html.twig', [
+  
+            'lists' => $lists,
+            
+             
+        ]);
+
+        
+    }
+
+    #[Route('/{page}', name: 'pagePick')]
+    public function pickPage($page): Response
+    {
+        try{
+            
+            $TopLimit = $page * 5;
+            $BottomLimit = ($page * 5)-4;
+
+            $lists = $this->em->getRepository(Cars::class)->findBy(
+                array(),
+                array('id' => 'ASC'),
+                $TopLimit,
+                $BottomLimit
+            );
+            
+  
             return $this->render('car_show/index.html.twig', [
+                
                 'lists' => $lists,
                 
   
             ]);
-        } 
+        }catch(\Exception $e){
+            
+             return $this->render('blog/404.html.twig', [
+            ]);
+        
+         }    
+        
     }
 }
