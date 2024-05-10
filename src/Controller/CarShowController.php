@@ -175,6 +175,18 @@ class CarShowController extends AbstractController
                 $TopLimit,
                 $BottomLimit
             );
+
+            foreach($lists as $list) { 
+                $dir = $list->getimage();
+    
+                $files = scandir($dir);
+    
+                $imageToDisplay=$dir.$files[2];
+    
+                $list->setimage($imageToDisplay);
+    
+                
+            } 
             
   
             return $this->render('car_show/index.html.twig', [
