@@ -107,19 +107,20 @@ class CarShowController extends AbstractController
 
             $files = scandir($dir);
 
-            //dd($files);
 
             $imageToDisplay=$dir.$files[2];
 
+            $post->setimage($imageToDisplay);
+      
             
-        }    
-
+        };   
+        
         
         return $this->render('car_show/display.html.twig', [
             
             'picked' => $id,
             'posts' => $posts,
-            'mainImage' => $imageToDisplay
+            
         ]);
     }
 
@@ -137,25 +138,19 @@ class CarShowController extends AbstractController
             
         );
         
-        $a=array();
+        
         foreach($lists as $list) { 
             $dir = $list->getimage();
 
             $files = scandir($dir);
 
-            
-
             $imageToDisplay=$dir.$files[2];
 
-            array_push($a,$imageToDisplay);
+            $list->setimage($imageToDisplay);
+
+            
         }  
-        //dd($a); 
-
-        dd($lists);
-
-        $result = array_merge($a, $lists);
-
-        //dd($result);
+        
         return $this->render('car_show/index.html.twig', [
   
             'lists' => $lists,
