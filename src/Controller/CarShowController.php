@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Cars;
+use App\Entity\DisplayPhotos;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -105,8 +106,9 @@ class CarShowController extends AbstractController
             
             $dir = $post->getimage();
 
-            $files = scandir($dir);
+            $EmptyDir = $dir;
 
+            $files = scandir($dir);
 
             $imageToDisplay=$dir.$files[2];
 
@@ -114,12 +116,28 @@ class CarShowController extends AbstractController
       
             
         };   
+
+
+        $files = scandir($dir);
+
+        $outputs = array_slice($files, 2); 
         
-        
+        $listOfItems = array();
+        for($i=0;$i<count($outputs);$i++)
+
+            
+            {
+                $dir = $post->getimage();
+                $listOfItems[$i] = new DisplayPhotos($outputs[$i]);
+                $listOfItems[$i]->setimage($EmptyDir . $outputs[$i]);
+            }
+
+           
         return $this->render('car_show/display.html.twig', [
             
             'picked' => $id,
             'posts' => $posts,
+            'listOfItems' => $listOfItems,
             
         ]);
     }

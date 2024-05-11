@@ -35,12 +35,11 @@
             <img  src="{{asset(post.image)}}" class="img-fluid " alt="Responsive image" style="height: 100%; width: auto;">
         </div>
 
-
-    
-
-
-
-
     {% endfor %}
+
+    {% for listOfItem in listOfItems %}
+        <img  src="{{asset(listOfItem.image)}}" class="img-fluid " alt="Responsive image" style="height: 100%; width: auto;">
+    {% endfor %}
+
 </div>
 {% endblock %}
