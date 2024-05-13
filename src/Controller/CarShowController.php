@@ -100,11 +100,11 @@ class CarShowController extends AbstractController
     {
         
 
-        $posts = $this->em->getRepository(Cars::class)->findById($id);
+        $lists = $this->em->getRepository(Cars::class)->findById($id);
         
-        foreach($posts as $post) { 
+        foreach($lists as $list) { 
             
-            $dir = $post->getimage();
+            $dir = $list->getimage();
 
             $EmptyDir = $dir;
 
@@ -112,7 +112,7 @@ class CarShowController extends AbstractController
 
             $imageToDisplay=$dir.$files[2];
 
-            $post->setimage($imageToDisplay);
+            $list->setimage($imageToDisplay);
       
             
         };   
@@ -127,7 +127,7 @@ class CarShowController extends AbstractController
 
             
             {
-                $dir = $post->getimage();
+                $dir = $list->getimage();
                 $listOfItems[$i] = new DisplayPhotos($outputs[$i]);
                 $listOfItems[$i]->setimage($EmptyDir . $outputs[$i]);
             }
@@ -136,7 +136,7 @@ class CarShowController extends AbstractController
         return $this->render('car_show/display.html.twig', [
             
             'picked' => $id,
-            'posts' => $posts,
+            'posts' => $lists,
             'listOfItems' => $listOfItems,
             
         ]);
@@ -147,7 +147,7 @@ class CarShowController extends AbstractController
     public function index(): Response
     {
         
-        $lists = $this->em->getRepository(Cars::class)->findBy(
+        $posts = $this->em->getRepository(Cars::class)->findBy(
             array(),
             array('id' => 'ASC'),
             10,
@@ -157,21 +157,21 @@ class CarShowController extends AbstractController
         );
         
         
-        foreach($lists as $list) { 
-            $dir = $list->getimage();
+        foreach($posts as $post) { 
+            $dir = $post->getimage();
 
             $files = scandir($dir);
 
             $imageToDisplay=$dir.$files[2];
 
-            $list->setimage($imageToDisplay);
+            $post->setimage($imageToDisplay);
 
             
         }  
         
         return $this->render('car_show/index.html.twig', [
   
-            'lists' => $lists,
+            'posts' => $posts,
             
              
         ]);
@@ -187,21 +187,21 @@ class CarShowController extends AbstractController
             $TopLimit = $page * 5;
             $BottomLimit = ($page * 5)-4;
 
-            $lists = $this->em->getRepository(Cars::class)->findBy(
+            $posts = $this->em->getRepository(Cars::class)->findBy(
                 array(),
                 array('id' => 'ASC'),
                 $TopLimit,
                 $BottomLimit
             );
 
-            foreach($lists as $list) { 
-                $dir = $list->getimage();
+            foreach($posts as $post) { 
+                $dir = $post->getimage();
     
                 $files = scandir($dir);
     
                 $imageToDisplay=$dir.$files[2];
     
-                $list->setimage($imageToDisplay);
+                $post->setimage($imageToDisplay);
     
                 
             } 
@@ -209,13 +209,13 @@ class CarShowController extends AbstractController
   
             return $this->render('car_show/index.html.twig', [
                 
-                'lists' => $lists,
+                'posts' => $posts,
                 
   
             ]);
         }catch(\Exception $e){
             
-             return $this->render('blog/404.html.twig', [
+             return $this->render('car_show/404.html.twig', [
             ]);
         
          }    

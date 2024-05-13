@@ -15,9 +15,7 @@
   
             }
 
-            {# img{
-                max-height:80%;
-            } #}
+
 
             .siacialmedia:hover{
                 color: blue;
@@ -28,12 +26,7 @@
                 text-decoration: none;
             }
 
-            {# footer{
-                position: fixed; 
-                bottom: 0;
-                width:100%;
-            } #}
-            
+           
         
         </style>
             
@@ -46,9 +39,7 @@
         <header class="d-block bg-dark flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="row">
             <div class="d-flex justify-content-center">
-                {# <form class="col-lg-6 col-sm-8 col-10" role="search">
-                    <input type="search" class="form-control form-control bg-light" placeholder="Search..." aria-label="Search">
-                </form> #}
+
 
                 <form class="col-lg-6 col-sm-8 col-10">
                     <div class="input-group mb-3 ">
@@ -66,7 +57,7 @@
         </div>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+            <li><a href="{{ path('blog') }}" class="nav-link px-2 link-secondary">Home</a></li>
             <li><a href="#" class="nav-link px-2">Features</a></li>
             <li><a href="#" class="nav-link px-2">Pricing</a></li>
             <li><a href="#" class="nav-link px-2">FAQs</a></li>
@@ -80,6 +71,16 @@
             
         </div>
         </header>
+        {% set no = 1 %}
+            {% for  post in posts %}
+                {% if no == 1 %}
+                <div class="d-flex justify-content-center">
+                    <h6><span><a href="{{ path('blogPick',{id: post.id})}}">Home</a> | <a href="{{ path('blogPick',{id: post.id})}}">Page</a> | <a href="{{ path('blogPick',{id: post.id})}}">Blog</a> | </span></h6>
+                </div>
+                {% endif %}
+                {% set no = no + 1 %}
+            {% endfor %}
+        
     </div>
         {% block body %}{% endblock %}
 
