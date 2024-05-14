@@ -10,13 +10,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 
+
 class CarShowController extends AbstractController
 {
-
+    
     private $em;
-
+    
     public function __construct(EntityManagerInterface $em){
         $this->em = $em;
+    }
+
+    private int $SavedNum;
+
+    public function setNumber( int $SavedNum){
+    
+        $this->SavedNum = $SavedNum;
     }
 
     // #[Route('/', name: 'app_car_show')]
@@ -98,7 +106,9 @@ class CarShowController extends AbstractController
     #[Route('/blog/{id}', name: 'blogPick')]
     public function gallery($id): Response
     {
-        
+
+        $user = new NewNumber($id);
+        var_dump($user->SavedNum);
 
         $lists = $this->em->getRepository(Cars::class)->findById($id);
         
@@ -138,14 +148,15 @@ class CarShowController extends AbstractController
             'picked' => $id,
             'posts' => $lists,
             'listOfItems' => $listOfItems,
-            
+            'savedId' => $id,
         ]);
     }
 
 
     #[Route('/', name: 'blog')]
     public function index(): Response
-    {
+    {   
+        
         
         $posts = $this->em->getRepository(Cars::class)->findBy(
             array(),

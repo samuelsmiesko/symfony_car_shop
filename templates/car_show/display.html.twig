@@ -100,6 +100,7 @@
 
 <div class="example-wrapper">
     {% for post in posts %}
+        <h6>{{post.id}}</h6>
         <h4>{{post.modelname}}</h4>
 
     {% endfor %}
@@ -120,16 +121,12 @@
   <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
   <a class="next" onclick="plusSlides(1)">&#10095;</a>
 
-  <!-- Image text -->
-  {# <div class="caption-container">
-    <p id="caption"></p>
-  </div> #}
 
-  <!-- Thumbnail images -->
   
   {% endfor %}
   <div class="row mt-5">
     {% for listOfItem in listOfItems %}  
+    
     <div class="column">
       <img class="demo cursor" src="{{asset(listOfItem.image)}}" style="width:100%" onclick="currentSlide({{ loop.index }})" >
     </div>
@@ -141,7 +138,9 @@
 </div>
 {% endblock %}
 {% block javascripts %}
+<script src="{{asset('js/toggle.js')}}"></script>
 <script type="text/javascript">
+
  let slideIndex = 1;
 showSlides(slideIndex);
 
