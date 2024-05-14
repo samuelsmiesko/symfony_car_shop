@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Cars;
 use App\Entity\DisplayPhotos;
+use App\Entity\NewNumbers;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,12 +21,12 @@ class CarShowController extends AbstractController
         $this->em = $em;
     }
 
-    private int $SavedNum;
+    // private int $SavedNum;
 
-    public function setNumber( int $SavedNum){
+    // public function setNumber( int $SavedNum){
     
-        $this->SavedNum = $SavedNum;
-    }
+    //     $this->SavedNum = $SavedNum;
+    // }
 
     // #[Route('/', name: 'app_car_show')]
     // public function index(): Response
@@ -102,13 +103,45 @@ class CarShowController extends AbstractController
     //         } 
     //     }
     
+    
+    #[Route("/ajaxSearch")]
+    public function ajaxSearch() 
+    {
+
+        if(isset($_REQUEST['get_variable'])){
+                        $qID = $_REQUEST['get_variable'];
+                    }
+   
+        $ExistingNumbers = $this->em->getRepository(NewNumbers::class)->findAll();
+
+        foreach($ExistingNumbers as $ExistingNumber) { 
+
+            $Number = $ExistingNumber->getBlogNumber();
+
+            echo $Number;
+          
+        }
+
+        $NewBlogNumber = new NewNumbers($qID);
+
+        $NewBlogNumber->setBlogNumber($qID);
+
+        print_r($NewBlogNumber);
+
+        $this->em->persist($NewBlogNumber);
+
+        $this->em->flush();
+
+        return new Response('<html><body>Hello'.$NewBlogNumber->getId().'</body></html>');
+
+    }
+
 
     #[Route('/blog/{id}', name: 'blogPick')]
     public function gallery($id): Response
     {
-
-        $user = new NewNumber($id);
-        var_dump($user->SavedNum);
+        
+        
 
         $lists = $this->em->getRepository(Cars::class)->findById($id);
         
@@ -123,26 +156,23 @@ class CarShowController extends AbstractController
             $imageToDisplay=$dir.$files[2];
 
             $list->setimage($imageToDisplay);
-      
-            
+        
         };   
-
 
         $files = scandir($dir);
 
         $outputs = array_slice($files, 2); 
         
         $listOfItems = array();
-        for($i=0;$i<count($outputs);$i++)
 
-            
+        for($i=0;$i<count($outputs);$i++)
+          
             {
                 $dir = $list->getimage();
                 $listOfItems[$i] = new DisplayPhotos($outputs[$i]);
                 $listOfItems[$i]->setimage($EmptyDir . $outputs[$i]);
             }
-
-           
+     
         return $this->render('car_show/display.html.twig', [
             
             'picked' => $id,
@@ -157,16 +187,13 @@ class CarShowController extends AbstractController
     public function index(): Response
     {   
         
-        
         $posts = $this->em->getRepository(Cars::class)->findBy(
             array(),
             array('id' => 'ASC'),
             10,
-            0
-            
+            0   
             
         );
-        
         
         foreach($posts as $post) { 
             $dir = $post->getimage();
@@ -176,18 +203,15 @@ class CarShowController extends AbstractController
             $imageToDisplay=$dir.$files[2];
 
             $post->setimage($imageToDisplay);
-
-            
+ 
         }  
         
         return $this->render('car_show/index.html.twig', [
   
             'posts' => $posts,
-            
              
         ]);
 
-        
     }
 
     #[Route('/{page}', name: 'pagePick')]
