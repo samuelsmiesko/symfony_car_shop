@@ -70,7 +70,6 @@ class CarShowController extends AbstractController
     //             $BottomLimit
     //         ); 
 
-            
 
     //         if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {  
     //         $jsonData = array();  
@@ -104,36 +103,76 @@ class CarShowController extends AbstractController
     //     }
     
     
-    #[Route("/ajaxSearch")]
-    public function ajaxSearch() 
+    #[Route("/ajaxSave")]
+    public function ajaxSearch(Request $request) 
     {
 
-        if(isset($_REQUEST['get_variable'])){
-                        $qID = $_REQUEST['get_variable'];
-                    }
+        // if(isset($_REQUEST['get_variable'])){
+        //                 $qID = $_REQUEST['get_variable'];
+        //             }
    
         $ExistingNumbers = $this->em->getRepository(NewNumbers::class)->findAll();
 
-        foreach($ExistingNumbers as $ExistingNumber) { 
+        // foreach($ExistingNumbers as $ExistingNumber) { 
 
-            $Number = $ExistingNumber->getBlogNumber();
+        //     $Number = $ExistingNumber->getBlogNumber();
 
-            echo $Number;
+        //     echo $Number;
           
-        }
+        // }
 
-        $NewBlogNumber = new NewNumbers($qID);
+        // $NewBlogNumber = new NewNumbers($qID);
 
-        $NewBlogNumber->setBlogNumber($qID);
+        // $NewBlogNumber->setBlogNumber($qID);
 
-        print_r($NewBlogNumber);
+        // print_r($NewBlogNumber);
 
-        $this->em->persist($NewBlogNumber);
+        // $this->em->persist($NewBlogNumber);
 
-        $this->em->flush();
+        // $this->em->flush();
 
-        return new Response('<html><body>Hello'.$NewBlogNumber->getId().'</body></html>');
+        // return new Response();
 
+        if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {  
+
+                    $qID = $_REQUEST['get_variable'];
+
+                    // foreach($ExistingNumbers as $ExistingNumber) { 
+
+                    //         $Number = $ExistingNumber->getBlogNumber();
+                                        
+                    // }
+
+                    
+            
+                    //print_r($NewBlogNumber);
+            
+                    
+
+                    //$jsonData = array(); 
+
+                    $idx = 0;  
+                    foreach($ExistingNumbers as $ExistingNumber) { 
+                         
+                        $temp = array(
+                            'id' => $ExistingNumber->getId(),  
+                           
+                        );   
+                        $jsonData[$idx++] = $temp;  
+
+                        
+                   
+                    } 
+                    $NewBlogNumber = new NewNumbers($qID);
+
+                    $NewBlogNumber->setBlogNumber($qID);
+
+                    $this->em->persist($NewBlogNumber);
+            
+                    $this->em->flush();
+                    
+                    return new JsonResponse($jsonData); 
+                }            
     }
 
 

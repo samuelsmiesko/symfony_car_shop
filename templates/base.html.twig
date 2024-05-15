@@ -132,15 +132,7 @@
         </div>
   
         </header>
-        {% set no = 1 %}
-            {% for  post in posts %}
-                {% if no == 1 %}
-                <div class="d-flex justify-content-center">
-                    <h6><span><a href="{{ path('blog') }}">Home</a> | <a href="{{ path('pagePick',{page: loop.index})}}">Page</a> | <a href="{{ path('blogPick',{id: loop.index})}}">Blog</a> | </span></h6>
-                </div>
-                {% endif %}
-                {% set no = no + 1 %}
-            {% endfor %}
+        
         
     </div>
         {% block body %}{% endblock %}
