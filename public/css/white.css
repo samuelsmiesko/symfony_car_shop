@@ -1,0 +1,17 @@
+body{
+    background-color: #f7f7f7; 
+}
+
+footer{
+    background-color: #f7f7f7; 
+}
+
+.list-group-item{
+    background-color: #f7f7f7; 
+    color:#233142;
+}
+
+a{
+    color:#233142;
+    text-decoration: none;
+}

@@ -1,0 +1,35 @@
+body{
+    background-color: #233142; 
+}
+
+footer{
+    background-color: #233142; ;
+}
+
+.list-group-item{
+    background-color: #233142;
+    color:azure
+}
+
+a{
+    color:azure;
+    text-decoration: none;
+}
+
+svg{
+    color:azure;
+}
+
+input{
+    background-color: #233142 !important;
+    color:azure !important;
+}
+
+::placeholder {
+    color:azure !important;
+    opacity: 1; /* Firefox */
+  }
+  
+  ::-ms-input-placeholder { /* Edge 12-18 */
+    color:azure !important;
+  }
