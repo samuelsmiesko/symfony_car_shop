@@ -174,14 +174,15 @@
         <ul class="pagination">
             <li class="page-item "><a id="1" class="page-link paginationTag  loadpage"
                     href="{{ path('pagePick',{page: 1})}}">First</a></li>
-            <li class="page-item "><a id="1" class="page-link paginationTag  loadpage" href="#">
-                    <</a> </li> {% set break = 0 %} {% for key in posts %} {% set lastElement = loop.length %}
-                        {% set foo = loop.length / 5 %} {% if break == 0 %} <li class="page-item"><a id="{{loop.index}}"
+            <li class="page-item "><a id="1" class="page-link paginationTag  loadpage" href="{{ path('pagePick',{page: lastPage})}}"><</a> </li>
+                     {% set break = 0 %} {% for key in posts %} {% set lastElement = loop.length %}
+                        {% set foo = loop.length / 5 %} {% if break == 0 %} 
+                        <li class="page-item"><a id="{{loop.index}}"
                             href="{{ path('pagePick',{page: loop.index})}}" class="page-link paginationTag  loadpage"
                             href="#">{{loop.index}}</a></li>
             {% endif %}
             {% if loop.index == 5 and break == 0 %}
-            <li class="page-item "><a id="2" class="page-link paginationTag  loadpage" href="#">></a></li>
+            <li class="page-item "><a id="2" class="page-link paginationTag  loadpage" href="{{ path('pagePick',{page: nextPage})}}">></a></li>
             <li class="page-item"><a id="{{loop.length}}" class="page-link paginationTag  loadpage"
                     href="{{ path('pagePick',{page: loop.length})}}">last
 
@@ -207,6 +208,19 @@
 <script src="{{asset('js/animations.js')}}"></script>
 <script src="{{asset('js/cookie.js')}}"></script>
 <script type="text/javascript">
-
+{# $( document ).ready(function() {
+    var url = window.location.href;
+    console.log(url," url");
+    let page = url.substring(url.lastIndexOf('/') + 1);
+    console.log(page," page");
+    if(page > 0){
+        console.log(parseInt(page)," page");
+        console.log(parseInt(page) + 1," nextPage");
+        console.log(parseInt(page) - 1," lastPage");
+        setCookie("nextPage", parseInt(page) + 1, 1);
+        setCookie("previousPage", parseInt(page) - 1, 1);
+    }
+}; #}
+    
 </script>
 {% endblock %}

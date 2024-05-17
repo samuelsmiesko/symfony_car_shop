@@ -118,23 +118,7 @@
     </head>
     <body >
 
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-
-        <!-- Modal content -->
-        <div class="modal-content">
-            
-            <div class="col">
-                <button type="button" id="myBtn" class="btn btn-danger btn-sm float-end" style=" float:right">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-                    </svg>
-                </button >
-            </div>
-            <p class="mt-4 pt-4 border-top">Some text in the Modal..</p>
-        </div>
-
-        </div>
+        
 
         <div class="container-fluid p-0">
         <header class="d-block flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
@@ -215,15 +199,13 @@
     </div>
         {% block body %}{% endblock %}
 
-        <div class="spinner-wrapper d-flex justify-content-center align-items-center">
-
-        </div>
-
-        <div id="modalCookie" class=" paginationTag bg-white text-center p-3 ">
-            <h1>Allow cookie</h1>
-            <p>Cookie consent</p>
-            <button id="CancelBtn" type="button" class="btn btn-success">Accept</button>
-            <button id="AcceptBtn" type="button" class="btn btn-danger">Reject</button>
+        <div class="spinner-wrapper d-flex justify-content-center align-items-center d-none">
+            <div id="modalCookie" class=" paginationTag bg-white text-center p-3 ">
+                <h1>Allow cookie</h1>
+                <p>Cookie consent</p>
+                <button id="CancelBtn" type="button" class="btn btn-success">Accept</button>
+                <button id="AcceptBtn" type="button" class="btn btn-danger">Reject</button>
+            </div>
         </div>
 
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

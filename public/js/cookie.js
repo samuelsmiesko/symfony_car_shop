@@ -4,26 +4,12 @@ let acceptCookieBtn = document.querySelector('#AcceptBtn');
 let spinnerWrapper = document.querySelector('.spinner-wrapper');
 
 console.log(document.cookie,"document.cookie");
-
-if (document.cookie == "reject=30" || document.cookie == "accept=30") {
-    cookieModal.classList.add("d-none");
-    spinnerWrapper.classList.add("d-none");
-}else{
+// @ts-ignore
+if (document.cookie != "reject=30" || document.cookie != "accept=30") {
     cookieModal.classList.add("d-block");
     spinnerWrapper.classList.add("d-block");
 }
 
-
-
-// function showCookie() {
-//     let cookieAccepted = localStorage.getItem('cookieAccepted');
-//     console.log(cookieAccepted);
-//     if (cookieAccepted === 'yes') {
-//         cookieModal.classList.remove("d-none");
-
-//     }
-
-// };
 
 cancelCookieBtn.addEventListener("click", function () {
     cookieModal.classList.add("d-none");
@@ -48,7 +34,7 @@ console.log(document.cookie === "reject=30");
 function setCookie(cName, cValue, expDays) {
     let date = new Date();
     
-    date.setTime(date.getTime() + (60 * 1000));
+    date.setTime(date.getTime() + ( 24 * 60 * 60 * 1000));
     const expires = "expires=" + date.toUTCString();
     document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
 }

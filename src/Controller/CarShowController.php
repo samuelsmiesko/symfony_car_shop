@@ -107,72 +107,36 @@ class CarShowController extends AbstractController
     public function ajaxSearch(Request $request) 
     {
 
-        // if(isset($_REQUEST['get_variable'])){
-        //                 $qID = $_REQUEST['get_variable'];
-        //             }
-   
-        $ExistingNumbers = $this->em->getRepository(NewNumbers::class)->findAll();
-
-        // foreach($ExistingNumbers as $ExistingNumber) { 
-
-        //     $Number = $ExistingNumber->getBlogNumber();
-
-        //     echo $Number;
           
-        // }
-
-        // $NewBlogNumber = new NewNumbers($qID);
-
-        // $NewBlogNumber->setBlogNumber($qID);
-
-        // print_r($NewBlogNumber);
-
-        // $this->em->persist($NewBlogNumber);
-
-        // $this->em->flush();
-
-        // return new Response();
+        $ExistingNumbers = $this->em->getRepository(NewNumbers::class)->findAll();
 
         if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {  
 
-                    $qID = $_REQUEST['get_variable'];
+            $qID = $_REQUEST['get_variable'];
 
-                    // foreach($ExistingNumbers as $ExistingNumber) { 
 
-                    //         $Number = $ExistingNumber->getBlogNumber();
-                                        
-                    // }
-
+            $idx = 0;  
+            foreach($ExistingNumbers as $ExistingNumber) { 
                     
-            
-                    //print_r($NewBlogNumber);
-            
+                $temp = array(
+                    'id' => $ExistingNumber->getId(),  
                     
+                );   
+                $jsonData[$idx++] = $temp;  
 
-                    //$jsonData = array(); 
-
-                    $idx = 0;  
-                    foreach($ExistingNumbers as $ExistingNumber) { 
-                         
-                        $temp = array(
-                            'id' => $ExistingNumber->getId(),  
-                           
-                        );   
-                        $jsonData[$idx++] = $temp;  
-
-                        
-                   
-                    } 
-                    $NewBlogNumber = new NewNumbers($qID);
-
-                    $NewBlogNumber->setBlogNumber($qID);
-
-                    $this->em->persist($NewBlogNumber);
+                
             
-                    $this->em->flush();
-                    
-                    return new JsonResponse($jsonData); 
-                }            
+            } 
+            $NewBlogNumber = new NewNumbers($qID);
+
+            $NewBlogNumber->setBlogNumber($qID);
+
+            $this->em->persist($NewBlogNumber);
+    
+            $this->em->flush();
+            
+            return new JsonResponse($jsonData); 
+        }            
     }
 
 
@@ -225,6 +189,9 @@ class CarShowController extends AbstractController
     #[Route('/', name: 'blog')]
     public function index(): Response
     {   
+        $nextPage = 2;
+
+        $lastPage = 1;
         
         $posts = $this->em->getRepository(Cars::class)->findBy(
             array(),
@@ -248,14 +215,22 @@ class CarShowController extends AbstractController
         return $this->render('car_show/index.html.twig', [
   
             'posts' => $posts,
+            'nextPage' => $nextPage,
+            'lastPage' => $lastPage
              
         ]);
 
     }
 
+
     #[Route('/{page}', name: 'pagePick')]
-    public function pickPage($page): Response
+    public function pickPage( $page): Response
     {
+
+        $nextPage = $page + 1;
+
+        $lastPage = $page - 1;
+        
         try{
             
             $TopLimit = $page * 5;
@@ -280,13 +255,15 @@ class CarShowController extends AbstractController
                 
             } 
             
-  
             return $this->render('car_show/index.html.twig', [
                 
                 'posts' => $posts,
-                
+                'nextPage' => $nextPage,
+                'lastPage' => $lastPage
   
             ]);
+
+   
         }catch(\Exception $e){
             
              return $this->render('car_show/404.html.twig', [
