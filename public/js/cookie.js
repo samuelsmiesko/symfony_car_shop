@@ -3,7 +3,7 @@ let cancelCookieBtn = document.querySelector('#CancelBtn');
 let acceptCookieBtn = document.querySelector('#AcceptBtn');
 let spinnerWrapper = document.querySelector('.spinner-wrapper');
 
-console.log(document.cookie,"document.cookie");
+
 // @ts-ignore
 if (document.cookie != "reject=30" || document.cookie != "accept=30") {
     cookieModal.classList.add("d-block");
@@ -26,8 +26,7 @@ acceptCookieBtn.addEventListener("click", function () {
     setCookie(CookieValue, 30);
 });
 
-console.log(document.cookie);
-console.log(document.cookie === "reject=30");
+
 
 
 // Set a Cookie

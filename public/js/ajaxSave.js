@@ -18,7 +18,7 @@ $(document).ready(function () {
             success: function (data, status) {
 
                 student = data[0];
-                console.log(student);
+                
                 var e = $(
                     '<div id="myModal" class="modal">\
                         <div class="modal-content">\

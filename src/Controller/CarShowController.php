@@ -142,21 +142,49 @@ class CarShowController extends AbstractController
     public function pickPage(Request $request, CarsRepository $CarsRepository, $page): Response
     {
         
+
         $nextPage = $page + 1;
 
         $lastPage = $page - 1;
 
         $searchTerm = $request->query->get('q');
 
-        print_r($searchTerm);
-        echo(isset($searchTerm));
-        //dd($searchTerm);
-
         $TopLimit = $page * 5;
+        
         $BottomLimit = ($page * 5)-4;
 
+        echo $searchTerm;
+
+        // if(isset($searchTerm)){
+        //     unset($_COOKIE['searchValue']);
+
+        //     setcookie("searchValue", $searchTerm);
+              
+        // }
+        
+        $searchTerm = $_COOKIE['searchValue'];
+
         if($searchTerm){
+
             $posts = $CarsRepository->search($searchTerm);
+
+            $count = $BottomLimit;
+
+            $array = array();
+
+            while ($count < $TopLimit ){
+   
+                array_push($array, $posts[$count]);
+
+                $count += 1;
+
+            }
+
+            //print_r($array);
+
+            $posts = $array;
+
+
         }else{
             $posts = $this->em->getRepository(Cars::class)->findBy(
                 array(),
@@ -184,7 +212,7 @@ class CarShowController extends AbstractController
             'lastPage' => $lastPage
 
         ]);
-     
+        
     }
 
 
@@ -200,6 +228,7 @@ class CarShowController extends AbstractController
 
         if($searchTerm){
             $posts = $CarsRepository->search($searchTerm);
+            setcookie("inputSearch", $searchTerm);
         }else{
             $posts = $this->em->getRepository(Cars::class)->findBy(
                 array(),
@@ -224,8 +253,8 @@ class CarShowController extends AbstractController
   
             'posts' => $posts,
             'nextPage' => $nextPage,
-            'lastPage' => $lastPage
-             
+            'lastPage' => $lastPage,
+            
         ]);
 
     }
