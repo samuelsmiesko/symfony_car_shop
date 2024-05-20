@@ -15,3 +15,8 @@ a{
     color:#233142;
     text-decoration: none;
 }
+
+svg{
+    color:grey;
+    fill:grey
+}

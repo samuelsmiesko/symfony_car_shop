@@ -2,8 +2,8 @@
     // var i;
 
     // function readyFn(jQuery) {
-    //     console.log("work");
-    //     var qID = $(this).attr('id');
+        
+    //     var qID = $('#text').val()
 
     //     if (qID == null) {
     //         // @ts-ignore
@@ -13,18 +13,19 @@
     //     console.log(qID,"qid ");
 
     //     $.ajax({
-    //         url: '/',
+    //         url: '/ajaxSearch',
     //         type: 'POST',
     //         dataType: 'json',
     //         data: {
     //             'get_variable': qID
     //         },
-
+            
     //         success: function (data, status) {
     //             $("#student a").remove();
+    //             console.log(data," data");
     //             for (i = 0; i < data.length; i++) {
     //                 student = data[i];
-    //                 console.log(student);
+                    
     //                 var e = $(
     //                     '<a>\
     //                         <div class="bg-white rounded mt-4 box">\
@@ -95,6 +96,7 @@
 
     // };
 
-    // $(document).ready(readyFn);
+    // //$(document).ready(readyFn);
 
-    // $(".loadpage").on("click", readyFn);
+    // $("#text").on("keyup", readyFn);
+

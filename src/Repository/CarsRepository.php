@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Cars;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,8 @@ class CarsRepository extends ServiceEntityRepository
 //    /**
 //     * @return Cars[] Returns an array of Cars objects
 //     */
+
+
 //    public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('c')
@@ -40,4 +43,35 @@ class CarsRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findAllOrdered(): array
+    {
+
+        $qb = $this->createQueryBuilder('category')
+            ->addOrderBy('category.modelname', Criteria::DESC);
+        
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+
+
+    }
+
+    /**
+     * @return string $term
+     * @return Category[]
+     */
+
+    public function search(string $term): array
+    {
+        return $this->createQueryBuilder('category')
+            ->andWhere('category.modelname LIKE :searchTerm')
+            
+            ->setParameter('searchTerm', '%' .$term.'%')
+            ->addOrderBy('category.modelname', 'Desc')
+            ->getQuery()    
+            ->getResult();
+    }
+
+    
 }

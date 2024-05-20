@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Cars;
 use App\Entity\DisplayPhotos;
 use App\Entity\NewNumbers;
+use App\Repository\CarsRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,88 +22,44 @@ class CarShowController extends AbstractController
         $this->em = $em;
     }
 
-    // private int $SavedNum;
-
-    // public function setNumber( int $SavedNum){
+    #[Route('/search', name: 'liveSearch')]
     
-    //     $this->SavedNum = $SavedNum;
-    // }
+    public function ajaxAction(Request $request, CarsRepository $CarsRepository): Response 
+    {  
 
-    // #[Route('/', name: 'app_car_show')]
-    // public function index(): Response
-    // {
+        $nextPage =  1;
 
-        
-    //         $lists = $this->em->getRepository(Cars::class)->findBy(
-    //             array(),
-    //             array('id' => 'ASC'),
-    //             10,
-    //             0
-    //         );
-    //     return $this->render('car_show/index.html.twig', [
-    //         'lists' => $lists,
-    //     ]);
-        
-    // }
+        $lastPage = 1;
 
+        $searchTerm = $request->query->get('q');
 
-    // #[Route('/')]
+        if($searchTerm){
+            $posts = $CarsRepository->search($searchTerm);
+        }else{
+            $posts = $CarsRepository->findAllOrdered();
+        }
+
+        foreach($posts as $post) { 
+            $dir = $post->getimage();
+
+            $files = scandir($dir);
+
+            $imageToDisplay=$dir.$files[2];
+
+            $post->setimage($imageToDisplay);
+ 
+        } 
+       
+        return $this->render('car_show/index.html.twig', [
+                
+            'posts' => $posts,
+            'nextPage' => $nextPage,
+            'lastPage' => $lastPage
+
+        ]);
     
-    //     public function ajaxAction(Request $request) {  
-
-            
-    //         if(isset($_REQUEST['get_variable'])){
-    //             $limit = $_REQUEST['get_variable'];
-    //         }else{
-    //             $limit = 1;
-    //         }
-
-    //         $TopLimit = $limit * 5;
-    //         $BottomLimit = ($limit * 5)-4;
-
-    //         $lists = $this->em->getRepository(Cars::class)->findAll();
-
-
-    //         $students = $this->em->getRepository(Cars::class)->findBy(
-    //             array(),
-    //             array('id' => 'ASC'),
-    //             $TopLimit,
-    //             $BottomLimit
-    //         ); 
-
-
-    //         if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {  
-    //         $jsonData = array();  
-    //         $idx = 0;  
-    //         foreach($students as $student) { 
-    //             $dir = $student->getimage();
-    //             $files = scandir($dir);
-    //             $imageToDisplay=$dir.$files[2]; 
-    //             $temp = array(
-    //                 'id' => $student->getId(),  
-    //                 'brandname' => $student->getBrandname(),  
-    //                 'model' => $student->getModelname(), 
-    //                 'modelyear' => $student->getModelyear(), 
-    //                 'milage' => $student->getMilage(), 
-    //                 'price' => $student->getPrice(), 
-    //                 'status' => $student->getStatus(),
-                    
-    //                 'image' => $imageToDisplay, 
-    //             );   
-    //             $jsonData[$idx++] = $temp;  
-           
-    //         } 
-            
-    //         return new JsonResponse($jsonData); 
-    //         } else { 
-    //             return $this->render('car_show/index.html.twig', [
-    //                 'lists' => $lists,
-
-    //             ]);
-    //         } 
-    //     }
-    
-    
+    }
+   
     #[Route("/ajaxSave")]
     public function ajaxSearch(Request $request) 
     {
@@ -124,8 +81,6 @@ class CarShowController extends AbstractController
                 );   
                 $jsonData[$idx++] = $temp;  
 
-                
-            
             } 
             $NewBlogNumber = new NewNumbers($qID);
 
@@ -144,8 +99,6 @@ class CarShowController extends AbstractController
     public function gallery($id): Response
     {
         
-        
-
         $lists = $this->em->getRepository(Cars::class)->findById($id);
         
         foreach($lists as $list) { 
@@ -185,22 +138,77 @@ class CarShowController extends AbstractController
         ]);
     }
 
+    #[Route('/{page}', name: 'pagePick')]
+    public function pickPage(Request $request, CarsRepository $CarsRepository, $page): Response
+    {
+        
+        $nextPage = $page + 1;
+
+        $lastPage = $page - 1;
+
+        $searchTerm = $request->query->get('q');
+
+        print_r($searchTerm);
+        echo(isset($searchTerm));
+        //dd($searchTerm);
+
+        $TopLimit = $page * 5;
+        $BottomLimit = ($page * 5)-4;
+
+        if($searchTerm){
+            $posts = $CarsRepository->search($searchTerm);
+        }else{
+            $posts = $this->em->getRepository(Cars::class)->findBy(
+                array(),
+                array('id' => 'ASC'),
+                $TopLimit,
+                $BottomLimit
+            );
+        }
+
+        foreach($posts as $post) { 
+            $dir = $post->getimage();
+
+            $files = scandir($dir);
+
+            $imageToDisplay=$dir.$files[2];
+
+            $post->setimage($imageToDisplay);
+        
+        } 
+        
+        return $this->render('car_show/index.html.twig', [
+            
+            'posts' => $posts,
+            'nextPage' => $nextPage,
+            'lastPage' => $lastPage
+
+        ]);
+     
+    }
+
 
     #[Route('/', name: 'blog')]
-    public function index(): Response
+    public function index(Request $request, CarsRepository $CarsRepository): Response
     {   
+
         $nextPage = 2;
 
         $lastPage = 1;
-        
-        $posts = $this->em->getRepository(Cars::class)->findBy(
-            array(),
-            array('id' => 'ASC'),
-            10,
-            0   
-            
-        );
-        
+
+        $searchTerm = $request->query->get('q');
+
+        if($searchTerm){
+            $posts = $CarsRepository->search($searchTerm);
+        }else{
+            $posts = $this->em->getRepository(Cars::class)->findBy(
+                array(),
+                array('id' => 'ASC'),
+                10,
+                0
+            );
+        }
+     
         foreach($posts as $post) { 
             $dir = $post->getimage();
 
@@ -223,53 +231,5 @@ class CarShowController extends AbstractController
     }
 
 
-    #[Route('/{page}', name: 'pagePick')]
-    public function pickPage( $page): Response
-    {
-
-        $nextPage = $page + 1;
-
-        $lastPage = $page - 1;
-        
-        try{
-            
-            $TopLimit = $page * 5;
-            $BottomLimit = ($page * 5)-4;
-
-            $posts = $this->em->getRepository(Cars::class)->findBy(
-                array(),
-                array('id' => 'ASC'),
-                $TopLimit,
-                $BottomLimit
-            );
-
-            foreach($posts as $post) { 
-                $dir = $post->getimage();
     
-                $files = scandir($dir);
-    
-                $imageToDisplay=$dir.$files[2];
-    
-                $post->setimage($imageToDisplay);
-    
-                
-            } 
-            
-            return $this->render('car_show/index.html.twig', [
-                
-                'posts' => $posts,
-                'nextPage' => $nextPage,
-                'lastPage' => $lastPage
-  
-            ]);
-
-   
-        }catch(\Exception $e){
-            
-             return $this->render('car_show/404.html.twig', [
-            ]);
-        
-         }    
-        
-    }
 }

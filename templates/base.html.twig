@@ -1,243 +1,266 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link id="myImg" rel="stylesheet" type="text/css" href="" />
-        {% block stylesheets %}
-        <style>
-        
-            html,body {
-                margin:0;
-                padding:0;
-                overflow-x:hidden;
-  
-            }
 
-            .siacialmedia:hover{
-                color: blue;
-                transition: color 0.3s ease-in-out;
-            }
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link id="myImg" rel="stylesheet" type="text/css" href="" />
+    {% block stylesheets %}
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
 
-            
+        }
 
-            .dropdown {
+        .siacialmedia:hover {
+            color: blue;
+            transition: color 0.3s ease-in-out;
+        }
+
+
+
+        .dropdown {
             position: relative;
             display: inline-block;
-            }
+        }
 
-            .dropdown-content {
+        .dropdown-content {
             display: none;
             position: absolute;
             background-color: #f9f9f9;
-            top:70px;
-            left:0px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            top: 70px;
+            left: 0px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
             width: 100vw;
-            }
+        }
 
-            .dropdown-content a {
+        .dropdown-content a {
             color: black;
             padding: 12px 16px;
             text-decoration: none;
             display: block;
-            
-            }
 
-            .dropdown-content a:active {background-color: #f1f1f1}
+        }
 
-            #modalCookie{
-                position: fixed;
-                z-index: 500;
-                bottom: 0;
-                width: 100%;
-            
-            }
+        .dropdown-content a:active {
+            background-color: #f1f1f1
+        }
 
-            .spinner-wrapper{
-                background-color: grey;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 99;  
-                animation-name: example_spinner;
-                animation-duration: 1s;
-                animation-fill-mode: forwards ;
-                opacity: 0.5;
-            }
+        #modalCookie {
+            position: fixed;
+            z-index: 500;
+            bottom: 0;
+            width: 100%;
 
-            /* The Modal (background) */
-            .modal {
-            display: block; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
+        }
+
+        .spinner-wrapper {
+            background-color: grey;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 99;
+            animation-name: example_spinner;
+            animation-duration: 1s;
+            animation-fill-mode: forwards;
+            opacity: 0.5;
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: block;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
 
-            }
+        }
 
-            /* Modal Content/Box */
-            .modal-content {
+        /* Modal Content/Box */
+        .modal-content {
             background-color: #fefefe;
-            margin: 15% auto; /* 15% from the top and centered */
+            margin: 15% auto;
+            /* 15% from the top and centered */
             padding: 20px;
             border: 1px solid #888;
-            width: 80%; /* Could be more or less, depending on screen size */
-            }
+            width: 80%;
+            /* Could be more or less, depending on screen size */
+        }
 
-            /* The Close Button */
-            .close {
+        /* The Close Button */
+        .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
-            }
+        }
 
-            .close:hover,
-            .close:focus {
+        .close:hover,
+        .close:focus {
             color: black;
             text-decoration: none;
             cursor: pointer;
-            }
+        }
+    </style>
 
-           
-
-        </style>
-            
-        {% endblock %}
-
-        
-    </head>
-    <body >
-
-        
-
-        <div class="container-fluid p-0">
-        <header class="d-block flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-        <div class="row">
-            <div class="d-flex justify-content-center">
+    {% endblock %}
 
 
-                <form class="col-lg-6 col-sm-8 col-10">
-                    <div class="input-group mb-3 ">
-                        
-                        <input type="text" id="text" class="form-control someInput " placeholder="Search..." aria-label="Email" aria-describedby="basic-addon1">
-                        <button type="submit" class="btn btn-primary btn-md">Search</button> 
-                    </div>          
-                </form>
+</head>
+
+<body>
+
+
+
+    <div class="container-fluid p-0">
+        <header
+            class="d-block flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <form class="col-lg-6 col-sm-8 col-10">
+                        <div class="input-group mb-3 ">
+
+                            <input type="text" id="text" name="q" class="form-control someInput " placeholder="Search..."
+                                aria-label="Email" aria-describedby="basic-addon1">
+                            <button  type="submit" class="btn btn-primary btn-md">Search</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-        <div class="col-md-3 mb-2 mb-md-0">
-            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-            <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-            </a>
-        </div>
-                    
-        <div class="d-flex justify-content-center">
-            <div class=" col-9">
-                <ul class="nav d-none d-sm-none d-md-flex col-md-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="{{ path('blog') }}" class="nav-link px-2 link-secondary">Home</a></li>
-                    <li><a href="#" class="nav-link px-2">Features</a></li>
-                    <li><a href="#" class="nav-link px-2">Pricing</a></li>
-                    <li><a href="#" class="nav-link px-2">FAQs</a></li>
-                    <li><a href="#" class="nav-link px-2">About</a></li>
-                </ul>
+            <div class="row">
 
-
-                <div class="dropdown d-flex d-sm-flex d-md-none">
-                    
-                    <button onclick="burgerMenu()" type="button" class="btn btn-dark" >
-                            <svg  xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                <div class="dropdown  d-flex  justify-content-center ">
+                    <div class=" col-4 text-center ">
+                        <button onclick="burgerMenu()" type="button" class="btn btn d-md-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                                class="bi bi-list " viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                             </svg>
-                    
-                    </button>
-                    <div id="panel" class="dropdown-content" style="display:none">
-                        <a href="{{ path('blog') }}" class="nav-link px-2 link-secondary ms-2">Home</a>
-                        <a href="#" class="nav-link px-2 ms-2">Features</a>
-                        <a href="#" class="nav-link px-2 ms-2">Pricing</a>
-                        <a href="#" class="nav-link px-2 ms-2">FAQs</a>
-                        <a href="#" class="nav-link px-2 ms-2">About</a>
+
+                        </button>
+
+                        <div class="d-sm-none d-md-block">
+                            <ul class="nav d-none d-sm-none d-md-flex col-md-auto mb-2 justify-content-center mb-md-0">
+                                <li><a href="{{ path('blog') }}" class="nav-link px-2 link-secondary">Home</a></li>
+                                <li><a href="#" class="nav-link px-2">Features</a></li>
+                                
+                                <li><a href="#" class="nav-link px-2">FAQs</a></li>
+                                <li><a href="#" class="nav-link px-2">About</a></li>
+                            </ul>
+                        </div>
+
+                        <div id="panel" class="dropdown-content" style="display:none">
+                            <a href="{{ path('blog') }}" class="nav-link px-2 link-secondary ms-2">Home</a>
+                            <a href="#" class="nav-link px-2 ms-2">Features</a>
+                            
+                            <a href="#" class="nav-link px-2 ms-2">FAQs</a>
+                            <a href="#" class="nav-link px-2 ms-2">About</a>
+                        </div>
+                        <div id="login" class="dropdown-content " style="display:none; ">
+
+                            <a href="{{ path('app_login') }}" class="link-secondary ms-3 mt-1">Login</a>
+                            <a href="{{ path('app_register') }}" class="link-primary ms-3 mt-3">Sign-up</a>
+
+                        </div>
                     </div>
-                    <div id="login" class="dropdown-content " style="display:none; ">
-                    
-                        <a href="#"  class="link-secondary ms-3 mt-1">Login</a>
-                        <a href="#"  class="link-primary ms-3 mt-3">Sign-up</a>
-                    
+                    <div class=" col-4 text-center ">
+
+
+                        <svg id="BlackWhite" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill=""
+                            class="bi bi-circle-half ms-4 mt-2" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16" />
+                        </svg>
+
+                        <svg onclick="loginMenu()" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill=""
+                            class="bi bi-person-check ms-4 mt-2" viewBox="0 0 16 16">
+                            <path
+                                d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                            <path
+                                d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z" />
+                        </svg>
+
                     </div>
                 </div>
+            </div>
 
-            </div>
-            <div class=" col-1 ">
-                <svg id="BlackWhite" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="grey" class="bi bi-circle-half mt-1" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 0 8 1zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16"/>
-                </svg>
-            </div>
-            <div class="dropdown col-2 float-end">
-                <button onclick="loginMenu()" type="button" class="btn btn-primary " >
-                    <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
-                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
-                    <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
-                    </svg>
-                    
-                </button>
-                
-            </div>
-        </div>
-  
-        </header>
-        
-        
     </div>
-        {% block body %}{% endblock %}
 
-        <div class="spinner-wrapper d-flex justify-content-center align-items-center d-none">
-            <div id="modalCookie" class=" paginationTag bg-white text-center p-3 ">
-                <h1>Allow cookie</h1>
-                <p>Cookie consent</p>
-                <button id="CancelBtn" type="button" class="btn btn-success">Accept</button>
-                <button id="AcceptBtn" type="button" class="btn btn-danger">Reject</button>
-            </div>
+
+
+    </header>
+
+
+    </div>
+    {% block body %}{% endblock %}
+
+    <div class="spinner-wrapper d-flex justify-content-center align-items-center d-none">
+        <div id="modalCookie" class=" paginationTag bg-white text-center p-3 ">
+            <h1>Allow cookie</h1>
+            <p>Cookie consent</p>
+            <button id="CancelBtn" type="button" class="btn btn-success">Accept</button>
+            <button id="AcceptBtn" type="button" class="btn btn-danger">Reject</button>
+        </div>
+    </div>
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+                <svg class="bi" width="30" height="24">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+            </a>
+            <span class="mb-3 mb-md-0 ">© 2024 Company, Inc</span>
         </div>
 
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-            <div class="col-md-4 d-flex align-items-center">
-            <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
-                <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-            </a>
-            <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Company, Inc</span>
-            </div>
-
-            <ul class="nav col-md-4 justify-content-center list-unstyled d-flex">
-            <li class="ms-3"><a class="text-body-secondary" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-facebook siacialmedia" viewBox="0 0 16 16">
-                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
-                </svg></a>
+        <ul class="nav col-md-4 justify-content-center list-unstyled d-flex me-5">
+            <li class="ms-3"><a class="text-body-secondary" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="32"
+                        height="32" fill="currentColor" class="bi bi-facebook siacialmedia" viewBox="0 0 16 16">
+                        <path
+                            d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+                    </svg></a>
             </li>
-            <li class="ms-3"><a class="text-body-secondary" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-twitter siacialmedia" viewBox="0 0 16 16">
-            <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334q.002-.211-.006-.422A6.7 6.7 0 0 0 16 3.542a6.7 6.7 0 0 1-1.889.518 3.3 3.3 0 0 0 1.447-1.817 6.5 6.5 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.32 9.32 0 0 1-6.767-3.429 3.29 3.29 0 0 0 1.018 4.382A3.3 3.3 0 0 1 .64 6.575v.045a3.29 3.29 0 0 0 2.632 3.218 3.2 3.2 0 0 1-.865.115 3 3 0 0 1-.614-.057 3.28 3.28 0 0 0 3.067 2.277A6.6 6.6 0 0 1 .78 13.58a6 6 0 0 1-.78-.045A9.34 9.34 0 0 0 5.026 15"/>
-            </svg></a></li>
-            
-            </ul>
-        </footer>
-        {% block javascripts %}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="{{asset('js/toggle.js')}}"></script>
-        <script src="{{asset('js/ajaxSave.js')}}"></script>
-        <script src="{{asset('js/ajaxSearch.js')}}"></script>
-        <script src="{{asset('js/animations.js')}}"></script>
-        <script src="{{asset('js/cookie.js')}}"></script>
-        <script type="text/javascript">
+            <li class="ms-3"><a class="text-body-secondary" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="32"
+                        height="32" fill="currentColor" class="bi bi-twitter siacialmedia" viewBox="0 0 16 16">
+                        <path
+                            d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334q.002-.211-.006-.422A6.7 6.7 0 0 0 16 3.542a6.7 6.7 0 0 1-1.889.518 3.3 3.3 0 0 0 1.447-1.817 6.5 6.5 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.32 9.32 0 0 1-6.767-3.429 3.29 3.29 0 0 0 1.018 4.382A3.3 3.3 0 0 1 .64 6.575v.045a3.29 3.29 0 0 0 2.632 3.218 3.2 3.2 0 0 1-.865.115 3 3 0 0 1-.614-.057 3.28 3.28 0 0 0 3.067 2.277A6.6 6.6 0 0 1 .78 13.58a6 6 0 0 1-.78-.045A9.34 9.34 0 0 0 5.026 15" />
+                    </svg></a></li>
 
-        </script> 
-        {% endblock %}
-    </body>
+        </ul>
+    </footer>
+    {% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{asset('js/toggle.js')}}"></script>
+    <script src="{{asset('js/ajaxSave.js')}}"></script>
+    <script src="{{asset('js/ajaxSearch.js')}}"></script>
+    <script src="{{asset('js/animations.js')}}"></script>
+    <script src="{{asset('js/cookie.js')}}"></script>
+    <script type="text/javascript">
+
+    </script>
+    {% endblock %}
+</body>
+
 </html>
