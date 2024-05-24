@@ -63,14 +63,12 @@ class CarShowController extends AbstractController
     #[Route("/ajaxSave")]
     public function ajaxSearch(Request $request) 
     {
-
-          
+    
         $ExistingNumbers = $this->em->getRepository(NewNumbers::class)->findAll();
 
         if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {  
 
             $qID = $_REQUEST['get_variable'];
-
 
             $idx = 0;  
             foreach($ExistingNumbers as $ExistingNumber) { 
@@ -138,11 +136,24 @@ class CarShowController extends AbstractController
         ]);
     }
 
+    #[Route('/destroy', name: 'deleteSearchTerm')]
+    public function deleteSearchTerm() 
+    {
+        session_start();
+
+        echo $_SESSION['searchTerm'];
+
+        session_destroy();
+
+        echo " SESSION term destroyed";
+
+        return $this->redirectToRoute('blog');
+    }
+
     #[Route('/{page}', name: 'pagePick')]
     public function pickPage(Request $request, CarsRepository $CarsRepository, $page): Response
     {
         
-
         $nextPage = $page + 1;
 
         $lastPage = $page - 1;
@@ -152,19 +163,22 @@ class CarShowController extends AbstractController
         $TopLimit = $page * 5;
         
         $BottomLimit = ($page * 5)-4;
-
-        echo $searchTerm;
-
-        // if(isset($searchTerm)){
-        //     unset($_COOKIE['searchValue']);
-
-        //     setcookie("searchValue", $searchTerm);
-              
-        // }
-        
-        $searchTerm = $_COOKIE['searchValue'];
-
+       
         if($searchTerm){
+
+            session_start();
+
+            $_SESSION['searchTerm'] = $searchTerm ;
+
+            echo $_SESSION['searchTerm'];
+
+            echo " SESSION term set";
+
+            $buttonTextSearchTerm = $searchTerm ;
+
+            $TopLimit = 10;
+
+            $buttonTextSearchTerm = $searchTerm;
 
             $posts = $CarsRepository->search($searchTerm);
 
@@ -180,18 +194,49 @@ class CarShowController extends AbstractController
 
             }
 
-            //print_r($array);
-
             $posts = $array;
 
-
         }else{
-            $posts = $this->em->getRepository(Cars::class)->findBy(
-                array(),
-                array('id' => 'ASC'),
-                $TopLimit,
-                $BottomLimit
-            );
+            
+            session_start();
+
+            if(isset($_SESSION['searchTerm'])){
+
+                $searchTerm = $_SESSION['searchTerm'];
+
+                $buttonTextSearchTerm = $searchTerm ;
+
+                $posts = $CarsRepository->search($searchTerm);
+
+                $count = $BottomLimit;
+
+                $array = array();
+
+                while ($count < $TopLimit ){
+    
+                    array_push($array, $posts[$count]);
+
+                    $count += 1;
+
+                }
+
+                $posts = $array;
+
+            }else{
+
+                echo "search term none";
+
+                $buttonTextSearchTerm = '';
+
+                $posts = $this->em->getRepository(Cars::class)->findBy(
+                    array(),
+                    array('id' => 'ASC'),
+                    $TopLimit,
+                    $BottomLimit
+                );
+
+            }
+
         }
 
         foreach($posts as $post) { 
@@ -209,7 +254,8 @@ class CarShowController extends AbstractController
             
             'posts' => $posts,
             'nextPage' => $nextPage,
-            'lastPage' => $lastPage
+            'lastPage' => $lastPage,
+            'buttonTextSearchTerm' => $buttonTextSearchTerm
 
         ]);
         
@@ -219,6 +265,7 @@ class CarShowController extends AbstractController
     #[Route('/', name: 'blog')]
     public function index(Request $request, CarsRepository $CarsRepository): Response
     {   
+        $buttonTextSearchTerm = '';
 
         $nextPage = 2;
 
@@ -254,6 +301,7 @@ class CarShowController extends AbstractController
             'posts' => $posts,
             'nextPage' => $nextPage,
             'lastPage' => $lastPage,
+            'buttonTextSearchTerm' => $buttonTextSearchTerm
             
         ]);
 
