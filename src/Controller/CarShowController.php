@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Cars;
 use App\Entity\DisplayPhotos;
 use App\Entity\NewNumbers;
+use App\Form\SearchFilterType;
 use App\Repository\CarsRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -141,18 +142,17 @@ class CarShowController extends AbstractController
     {
         session_start();
 
-        echo $_SESSION['searchTerm'];
-
         session_destroy();
 
-        echo " SESSION term destroyed";
-
-        return $this->redirectToRoute('blog');
+        return $this->redirectToRoute('pagePick', array(
+            'page' => 1,
+        ));
     }
 
     #[Route('/{page}', name: 'pagePick')]
     public function pickPage(Request $request, CarsRepository $CarsRepository, $page): Response
     {
+        echo $page;
         
         $nextPage = $page + 1;
 
@@ -166,15 +166,13 @@ class CarShowController extends AbstractController
        
         if($searchTerm){
 
-            session_start();
+            //session_start();
 
             $_SESSION['searchTerm'] = $searchTerm ;
-
-            echo $_SESSION['searchTerm'];
-
-            echo " SESSION term set";
-
+                     
             $buttonTextSearchTerm = $searchTerm ;
+
+            echo $buttonTextSearchTerm;
 
             $TopLimit = 10;
 
@@ -198,7 +196,7 @@ class CarShowController extends AbstractController
 
         }else{
             
-            session_start();
+            //session_start();
 
             if(isset($_SESSION['searchTerm'])){
 
@@ -249,64 +247,85 @@ class CarShowController extends AbstractController
             $post->setimage($imageToDisplay);
         
         } 
-        
+
+        $task = new Cars();
+
+        $form = $this->createForm(SearchFilterType::class, $task);
+
         return $this->render('car_show/index.html.twig', [
             
             'posts' => $posts,
             'nextPage' => $nextPage,
             'lastPage' => $lastPage,
-            'buttonTextSearchTerm' => $buttonTextSearchTerm
-
+            'buttonTextSearchTerm' => $buttonTextSearchTerm,
+            'form' => $form    
         ]);
+
         
+
     }
 
 
     #[Route('/', name: 'blog')]
     public function index(Request $request, CarsRepository $CarsRepository): Response
     {   
-        $buttonTextSearchTerm = '';
 
-        $nextPage = 2;
+        $posts = $this->em->getRepository(Cars::class)->findAll();
 
-        $lastPage = 1;
+        $lenght = (count($posts));
 
-        $searchTerm = $request->query->get('q');
-
-        if($searchTerm){
-            $posts = $CarsRepository->search($searchTerm);
-            setcookie("inputSearch", $searchTerm);
-        }else{
-            $posts = $this->em->getRepository(Cars::class)->findBy(
-                array(),
-                array('id' => 'ASC'),
-                10,
-                0
-            );
-        }
-     
-        foreach($posts as $post) { 
-            $dir = $post->getimage();
-
-            $files = scandir($dir);
-
-            $imageToDisplay=$dir.$files[2];
-
-            $post->setimage($imageToDisplay);
- 
-        }  
-        
-        return $this->render('car_show/index.html.twig', [
-  
+        return $this->render('car_show/blog.html.twig', [
             'posts' => $posts,
-            'nextPage' => $nextPage,
-            'lastPage' => $lastPage,
-            'buttonTextSearchTerm' => $buttonTextSearchTerm
+            'lenght' => $lenght
+       ]);
+
+        // $buttonTextSearchTerm = '';
+
+        // $nextPage = 2;
+
+        // $lastPage = 1;
+
+        // $searchTerm = $request->query->get('q');
+
+        // $task = new Cars();
+
+        // $form = $this->createForm(SearchFilterType::class, $task);
+
+        // if($searchTerm){
+        //     $posts = $CarsRepository->search($searchTerm);
+        //     setcookie("inputSearch", $searchTerm);
+        // }else{
+        //     $posts = $this->em->getRepository(Cars::class)->findBy(
+        //         array(),
+        //         array('id' => 'ASC'),
+        //         10,
+        //         0
+        //     );
+        // }
+     
+        // foreach($posts as $post) { 
+        //     $dir = $post->getimage();
+
+        //     $files = scandir($dir);
+
+        //     $imageToDisplay=$dir.$files[2];
+
+        //     $post->setimage($imageToDisplay);
+ 
+        // }  
+
+        // echo $buttonTextSearchTerm;
+        
+        // return $this->render('car_show/index.html.twig', [
+  
+        //     'posts' => $posts,
+        //     'nextPage' => $nextPage,
+        //     'lastPage' => $lastPage,
+        //     'buttonTextSearchTerm' => $buttonTextSearchTerm,
+        //     'form' => $form
             
-        ]);
+        // ]);
 
     }
 
-
-    
 }

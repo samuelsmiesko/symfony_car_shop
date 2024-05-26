@@ -45,12 +45,12 @@
     img {
         object-fit: cover;
         width: 100%;
-        
+
     }
 
-    .list-group-item{
-        padding:3px;
-        padding-left:35px;
+    .list-group-item {
+        padding: 3px;
+        padding-left: 35px;
     }
 </style>
 
@@ -72,26 +72,46 @@
         <div class="row " id="student">
         </div>
     </div>
+    <span id="demo"></span>
 
     <div style="height:100px">
-    {# {% if buttonTextSearchTerm == true %} #}
-<div class="d-flex justify-content-center" >
-    <a href="{{ path('deleteSearchTerm') }}">
-        <button type="button" class="btn bg-primary bg-gradient text-light position-relative top-50 start-50" style="">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
-            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-            </svg >
+        {% if buttonTextSearchTerm != null  %}
+        <div class="d-flex justify-content-center">
+            <a href="{{ path('deleteSearchTerm') }}">
+                <button type="button" class="btn bg-primary bg-gradient text-light position-relative top-50 start-50"
+                    style="">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x-lg"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                    </svg>
+
+                    {{buttonTextSearchTerm}} 
+
+                </button>
+            </a>
+        </div>
+        
+
+        {# <div class="d-flex justify-content-center">
             
-                {{buttonTextSearchTerm}}
-            
-        </button>
-    </a>
-</div>
-{# {% endif %} #}
-</div>
+            {{ form_start(SearchFilterType) }}
+            {{ form_row(SearchFilterType.Price) }}
+
+            {{ form_row(SearchFilterType.Used, {
+                            label: 'Ussed'
+                        }) }}
+            {{ form_end(SearchFilterType) }}
+            <span>0</span><span>10000</span>
+        </div> #}
+
+        {% endif %}
+
+        {# {{ form(form) }} #}
+    </div>
     {% for  post in posts %}
 
-    <div class="mt-4 box border-bottom">
+    <div class="mt-4 box example-wrapper border-bottom">
 
         <div class=" d-md-flex d-sm-block">
             <div class=" col-md-5 ">
@@ -180,7 +200,7 @@
             </div>
             <a href="{{ path('blogPick',{id: post.id})}}">
                 <div class="col">
-                    <img src="{{asset(post.image)}}" alt="Responsive image" >
+                    <img src="{{asset(post.image)}}" alt="Responsive image">
 
                 </div>
             </a>
@@ -195,15 +215,16 @@
         <ul class="pagination">
             <li class="page-item "><a id="1" class="page-link paginationTag  loadpage"
                     href="{{ path('pagePick',{page: 1})}}">First</a></li>
-            <li class="page-item "><a id="1" class="page-link paginationTag  loadpage" href="{{ path('pagePick',{page: lastPage})}}"><</a> </li>
-                     {% set break = 0 %} {% for key in posts %} {% set lastElement = loop.length %}
-                        {% set foo = loop.length / 5 %} {% if break == 0 %} 
-                        <li class="page-item"><a id="{{loop.index}}"
+            <li class="page-item "><a id="1" class="page-link paginationTag  loadpage"
+                    href="{{ path('pagePick',{page: lastPage})}}">
+                    <</a> </li> {% set break = 0 %} {% for key in posts %} {% set lastElement = loop.length %}
+                        {% set foo = loop.length / 5 %} {% if break == 0 %} <li class="page-item"><a id="{{loop.index}}"
                             href="{{ path('pagePick',{page: loop.index})}}" class="page-link paginationTag loadpage"
                             href="#">{{loop.index}}</a></li>
             {% endif %}
             {% if loop.index == 5 and break == 0 %}
-            <li class="page-item "><a id="2" class="page-link paginationTag  loadpage" href="{{ path('pagePick',{page: nextPage})}}">></a></li>
+            <li class="page-item "><a id="2" class="page-link paginationTag  loadpage"
+                    href="{{ path('pagePick',{page: nextPage})}}">></a></li>
             <li class="page-item"><a id="{{loop.length}}" class="page-link paginationTag  loadpage"
                     href="{{ path('pagePick',{page: loop.length})}}">last
 
@@ -229,7 +250,11 @@
 <script src="{{asset('js/animations.js')}}"></script>
 <script src="{{asset('js/cookie.js')}}"></script>
 <script type="text/javascript">
+    {# addEventListener("mousemove", (event) => {
+        var x = document.querySelector("#search_filter_Price").value;
 
-    
+
+        document.querySelector("#demo").innerHTML = "You selected: " + x;
+    }); #}
 </script>
 {% endblock %}

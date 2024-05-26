@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CarShowController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+
+    ul {
+    list-style-type: none;
+    }
+
+    img {
+        display: block;
+        max-width:750px;
+        max-height:450px;
+        width: auto;
+        height: auto;
+        }
+
+    .box:hover{
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 15px 0 rgba(0, 0, 0, 0.19);
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    
+</style>
+
+<div class="example-wrapper">
+    <div class="d-flex justify-content-center" style="height:100vh">
+        <div class="row" >
+            <a href="{{ path('pagePick',{page: 1})}}">
+                <button type="button" class="btn btn-primary mt-5" style="height:75px">show resluts ({{lenght}})</button>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="{{asset('js/toggle.js')}}"></script>
+<script src="{{asset('js/ajaxSave.js')}}"></script>
+<script src="{{asset('js/ajaxSearch.js')}}"></script>
+<script src="{{asset('js/animations.js')}}"></script>
+<script type="text/javascript">
+
+</script> 
+{% endblock %}

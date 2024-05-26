@@ -14,6 +14,11 @@ footer{
     color:azure
 }
 
+.form-select{
+    background-color: #233142;
+    color:azure
+}
+
 a{
     color:azure;
     text-decoration: none;
