@@ -22,7 +22,7 @@
 
 
 
-    .box:hover {
+    img:hover {
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 15px 0 rgba(0, 0, 0, 0.19);
         transition: box-shadow 0.3s ease-in-out;
     }
@@ -110,10 +110,11 @@
         {# {{ form(form) }} #}
     </div>
     {% for  post in posts %}
-
+    <a href="{{ path('blogPick',{id: post.id})}}">
     <div class="mt-4 box example-wrapper border-bottom">
 
         <div class=" d-md-flex d-sm-block">
+            
             <div class=" col-md-5 ">
 
                 <div class="m-3 p-3 bg-success bg-gradient border border-secondary rounded text-light">
@@ -198,16 +199,16 @@
                 </div>
 
             </div>
-            <a href="{{ path('blogPick',{id: post.id})}}">
+            
                 <div class="col">
                     <img src="{{asset(post.image)}}" alt="Responsive image">
 
                 </div>
-            </a>
+            
         </div>
 
     </div>
-
+    </a>
     {% endfor %}
 
 
