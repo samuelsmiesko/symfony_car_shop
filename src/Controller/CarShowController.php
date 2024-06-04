@@ -154,124 +154,124 @@ class CarShowController extends AbstractController
         ));
     }
 
-    #[Route('/{page}', name: 'pagePick')]
-    public function pickPage(Request $request, CarsRepository $CarsRepository, $page): Response
-    {
-        //dd("Registering");
-        if(is_string($page)){
-            $page = 1;
-        }
+    // #[Route('/{page}', name: 'pagePick')]
+    // public function pickPage(Request $request, CarsRepository $CarsRepository, $page): Response
+    // {
+    //     //dd("Registering");
+    //     if(is_string($page)){
+    //         $page = 1;
+    //     }
         
-        $nextPage = $page + 1;
+    //     $nextPage = $page + 1;
 
-        $lastPage = $page - 1;
+    //     $lastPage = $page - 1;
 
-        $searchTerm = $request->query->get('q');
+    //     $searchTerm = $request->query->get('q');
 
-        $TopLimit = $page * 5;
+    //     $TopLimit = $page * 5;
         
-        $BottomLimit = ($page * 5)-4;
+    //     $BottomLimit = ($page * 5)-4;
        
-        if($searchTerm){
+    //     if($searchTerm){
 
-            //session_start();
+    //         //session_start();
 
-            $_SESSION['searchTerm'] = $searchTerm ;
+    //         $_SESSION['searchTerm'] = $searchTerm ;
                      
-            $buttonTextSearchTerm = $searchTerm ;
+    //         $buttonTextSearchTerm = $searchTerm ;
 
-            $TopLimit = 10;
+    //         $TopLimit = 10;
 
-            $buttonTextSearchTerm = $searchTerm;
+    //         $buttonTextSearchTerm = $searchTerm;
 
-            $posts = $CarsRepository->search($searchTerm);
+    //         $posts = $CarsRepository->search($searchTerm);
 
-            $count = $BottomLimit;
+    //         $count = $BottomLimit;
 
-            $array = array();
+    //         $array = array();
 
-            while ($count < $TopLimit ){
+    //         while ($count < $TopLimit ){
    
-                array_push($array, $posts[$count]);
+    //             array_push($array, $posts[$count]);
 
-                $count += 1;
+    //             $count += 1;
 
-            }
+    //         }
 
-            $posts = $array;
+    //         $posts = $array;
 
-        }else{
+    //     }else{
             
-            //session_start();
+    //         //session_start();
 
-            if(isset($_SESSION['searchTerm'])){
+    //         if(isset($_SESSION['searchTerm'])){
 
-                $searchTerm = $_SESSION['searchTerm'];
+    //             $searchTerm = $_SESSION['searchTerm'];
 
-                $buttonTextSearchTerm = $searchTerm ;
+    //             $buttonTextSearchTerm = $searchTerm ;
 
-                $posts = $CarsRepository->search($searchTerm);
+    //             $posts = $CarsRepository->search($searchTerm);
 
-                $count = $BottomLimit;
+    //             $count = $BottomLimit;
 
-                $array = array();
+    //             $array = array();
 
-                while ($count < $TopLimit ){
+    //             while ($count < $TopLimit ){
     
-                    array_push($array, $posts[$count]);
+    //                 array_push($array, $posts[$count]);
 
-                    $count += 1;
+    //                 $count += 1;
 
-                }
+    //             }
 
-                $posts = $array;
+    //             $posts = $array;
 
-            }else{
+    //         }else{
 
 
-                $buttonTextSearchTerm = '';
+    //             $buttonTextSearchTerm = '';
 
-                $posts = $this->em->getRepository(Cars::class)->findBy(
-                    array(),
-                    array('id' => 'ASC'),
-                    $TopLimit,
-                    $BottomLimit
-                );
+    //             $posts = $this->em->getRepository(Cars::class)->findBy(
+    //                 array(),
+    //                 array('id' => 'ASC'),
+    //                 $TopLimit,
+    //                 $BottomLimit
+    //             );
 
-            }
+    //         }
 
-        }
+    //     }
 
-        foreach($posts as $post) { 
-            $dir = $post->getimage();
+    //     foreach($posts as $post) { 
+    //         $dir = $post->getimage();
 
-            $files = scandir($dir);
+    //         $files = scandir($dir);
 
-            $imageToDisplay=$dir.$files[2];
+    //         $imageToDisplay=$dir.$files[2];
 
-            $post->setimage($imageToDisplay);
+    //         $post->setimage($imageToDisplay);
         
-        } 
+    //     } 
 
-        $task = new Cars();
+    //     $task = new Cars();
 
-        $form = $this->createForm(SearchFilterType::class, $task);
+    //     $form = $this->createForm(SearchFilterType::class, $task);
 
-        $form->handleRequest($request);
+    //     $form->handleRequest($request);
         
-        return $this->render('car_show/index.html.twig', [
+    //     return $this->render('car_show/index.html.twig', [
             
-            'posts' => $posts,
-            'nextPage' => $nextPage,
-            'lastPage' => $lastPage,
-            'buttonTextSearchTerm' => $buttonTextSearchTerm,
-            'form' => $form    
-        ]);
+    //         'posts' => $posts,
+    //         'nextPage' => $nextPage,
+    //         'lastPage' => $lastPage,
+    //         'buttonTextSearchTerm' => $buttonTextSearchTerm,
+    //         'form' => $form    
+    //     ]);
 
-        $page = NULL;   
+    //     $page = NULL;   
 
-        $request = NULL;  
-    }
+    //     $request = NULL;  
+    // }
     
 
     #[Route('/', name: 'blog')]
