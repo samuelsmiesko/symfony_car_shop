@@ -67,12 +67,23 @@
     {% set no = no + 1 %}
     {% endfor %}
 
-
-    <div>
-        <div class="row " id="student">
-        </div>
-    </div>
-    <span id="demo"></span>
+    <div class="row">
+                <div class="d-flex justify-content-center" >
+                <div id="myRange" style="width:700px">
+                {{ form_start(form) }}
+                        {{ form_row(form.From) }}
+                        {{ form_row(form.To) }}
+                        <div class="d-flex justify-content-between">
+                            <span>0</span><span id="demo"></span><span>100000</span>
+                        </div> 
+                        
+                    {{ form_end(form) }}  
+                </div>
+                </div>
+                
+            </div>
+    
+    
 
     <div style="height:100px">
         {% if buttonTextSearchTerm != null  %}
@@ -91,23 +102,9 @@
                 </button>
             </a>
         </div>
-        
-
-        {# <div class="d-flex justify-content-center">
-            
-            {{ form_start(SearchFilterType) }}
-            {{ form_row(SearchFilterType.Price) }}
-
-            {{ form_row(SearchFilterType.Used, {
-                            label: 'Ussed'
-                        }) }}
-            {{ form_end(SearchFilterType) }}
-            <span>0</span><span>10000</span>
-        </div> #}
 
         {% endif %}
-
-        {# {{ form(form) }} #}
+     
     </div>
     {% for  post in posts %}
     <a href="{{ path('blogPick',{id: post.id})}}">
@@ -251,11 +248,13 @@
 <script src="{{asset('js/animations.js')}}"></script>
 <script src="{{asset('js/cookie.js')}}"></script>
 <script type="text/javascript">
-    {# addEventListener("mousemove", (event) => {
-        var x = document.querySelector("#search_filter_Price").value;
+    
+        addEventListener("mousedown", (event) => {
+            var x = document.querySelector("#search_filter_Price").value;
 
 
-        document.querySelector("#demo").innerHTML = "You selected: " + x;
-    }); #}
+            document.querySelector("#demo").innerHTML =  x;
+        }); 
+    
 </script>
 {% endblock %}
