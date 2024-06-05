@@ -158,9 +158,9 @@ class CarShowController extends AbstractController
     // public function pickPage(Request $request, CarsRepository $CarsRepository, $page): Response
     // {
     //     //dd("Registering");
-    //     if(is_string($page)){
-    //         $page = 1;
-    //     }
+    //     // if(is_string($page)){
+    //     //     $page = 1;
+    //     // }
         
     //     $nextPage = $page + 1;
 
