@@ -4,14 +4,15 @@
 
 {% block body %}
     {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        <div class="alert alert-danger " role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
+    
 
     {{ form_errors(registrationForm) }}
-    <form action="/register" method="POST">
+    <form class="mx-auto" action="/register" method="POST" style="max-width:800px; height:100vh">
     {{ form_start(registrationForm) }}
+        <h1>Register</h1>
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.plainPassword, {
             label: 'Password'
@@ -21,4 +22,5 @@
         <button type="submit" class="btn btn-success">Register</button>
     {{ form_end(registrationForm) }}
     </form>
+    <p>do you already have an email?<a href="{{path('app_register')}}">click here to login</a></p>
 {% endblock %}

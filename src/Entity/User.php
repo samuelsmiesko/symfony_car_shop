@@ -36,6 +36,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,12 +48,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
+
+
     public function setEmail(string $email): static
     {
         $this->email = $email;
 
         return $this;
     }
+
+
 
     /**
      * A visual identifier that represents this user.
